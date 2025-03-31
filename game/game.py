@@ -18,7 +18,7 @@ class Game:
         Initilize new board
         """
         self.board = BoardGame()
-        self.tempBoard = self.board
+        self.history = [deepcopy(self.board)]
         self.gameover = False
         self.turn = RED_TURN
         self.selectedPiece = None
@@ -36,13 +36,16 @@ class Game:
 
     def undo(self):
         """
-        Undo a move
+        Undo the last move
         """
-
-        if not self.isOver:
-            self.board.deselectPiece(self.selectedPiece.position)
-            self.board = self.tempBoard
+        if len(self.history) > 1:  # Kiểm tra nếu có trạng thái để hoàn tác
+            self.history.pop()  # Xóa trạng thái cuối cùng
+            self.board = deepcopy(self.history[-1])  # Khôi phục trạng thái trước đó
             self.turn = self.board.turn
+            self.selectedPiece = None  # Hủy chọn quân cờ
+        else:
+            print("No moves to undo!")  # Debug: Không có nước đi để hoàn tác
+
 
     def switchTurn(self):
         """
@@ -93,7 +96,7 @@ class Game:
         position: args tuple
         """
         if postion in self.board.movables:
-            self.tempBoard = deepcopy(self.board)
+            self.history.append(deepcopy(self.board))  # Lưu trạng thái trước khi di chuyển
             self.board.movePiece(self.selectedPiece.position, postion)
             self.selectedPiece = None
             self.switchTurn()
