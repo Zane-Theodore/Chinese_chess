@@ -178,14 +178,14 @@ class BoardGame:
         # Draw the border with the same color as the river
         self.rectangle = pygame.draw.rect(
             win,
-            (252, 182, 40),  # Same color as the river
+            Color.BLACK, 
             (
                 self.x - self.border,
                 self.y - self.border,
                 self.width + self.border * 2,
                 self.height + self.border * 2,
             ),
-            10,
+            5,
         )
 
         # Draw all the active pieces on the board
@@ -195,10 +195,22 @@ class BoardGame:
         # Highlight all movable positions
         for position in self.movables:
             coor = self.getCoordinateFromPosition(position)
-            pygame.draw.circle(win, Color.GREEN, coor, 7)
 
+            # Set the radius and alpha (transparency)
+            radius = 10 
+            alpha = 150
 
+            # Create a temporary surface with alpha support
+            surface = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
+            pygame.draw.circle(
+                surface,
+                (255, 0, 0, alpha),  # with transparency (alpha)
+                (radius, radius),
+                radius,
+            )
 
+            # Blit the temporary surface onto the main window
+            win.blit(surface, (coor[0] - radius, coor[1] - radius))
 
     def calculatePostion(self):
         """

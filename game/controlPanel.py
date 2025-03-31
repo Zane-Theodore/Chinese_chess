@@ -37,8 +37,8 @@ class ControlPanel:
     def makeButton(self, x, y, text):
         """
         Make sure every button is the same size
-        W = 100
-        H = 30
+        W = 150
+        H = 50
         """
         width = 150
         height = 50
@@ -133,3 +133,14 @@ class ControlPanel:
             textY = 150
 
             win.blit(text, (textX, textY))
+        else:
+            # Display whose turn it is (above the buttons)
+            turnText = "Red Turn" if self.game.turn == RED_SIDE else "Black Turn"
+            turnMessage = Font.NORMAL_FONT.render(turnText, True, Color.RED if self.game.turn == RED_SIDE else Color.BLACK)
+
+            # Calculate position to center the turn message
+            turnTextWidth, turnTextHeight = turnMessage.get_size()
+            turnTextX = self.x + (self.width - turnTextWidth) // 2
+            turnTextY = self.y + 150  # Position above the buttons
+
+            win.blit(turnMessage, (turnTextX, turnTextY))
