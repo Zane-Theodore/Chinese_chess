@@ -20,6 +20,7 @@ class ControlPanel:
         self.makeIndicators()
         self.makeButton(self.x + 50, self.y + 200, "Undo")
         self.makeButton(self.x + 50, self.y + 300, "Reset")
+        self.makeButton(self.x + 50, self.y + 400, "Surrender")
 
     def makeIndicators(self):
         """
@@ -37,10 +38,10 @@ class ControlPanel:
     def makeButton(self, x, y, text):
         """
         Make sure every button is the same size
-        W = 150
+        W = 175
         H = 50
         """
-        width = 150
+        width = 175
         height = 50
         coordinate = (x, y)
 
@@ -52,8 +53,11 @@ class ControlPanel:
 
         elif buttonText == "Reset":
             self.game.resetGame()
+        
+        elif buttonText == "Surrender":
+            self.game.surrender(); 
 
-        FUNCTIONS = {"Undo": self.game.undo, "Reset": self.game.resetGame}
+        FUNCTIONS = {"Undo": self.game.undo, "Reset": self.game.resetGame, "Surrender": self.game.surrender}
 
         FUNCTIONS[buttonText]()
 
@@ -126,7 +130,7 @@ class ControlPanel:
         # Display a message if the game is over
         if self.game.isOver:
             winnerTeam = "Black" if self.game.turn == RED_SIDE else "Red"
-            text = Font.NORMAL_FONT.render(f"{winnerTeam} won", True, Color.BLACK)
+            text = Font.NORMAL_FONT.render(f"{winnerTeam} won", True, Color.RED if self.game.turn != RED_SIDE else Color.BLACK)
             textWidth, textHeight = text.get_size()
 
             textX = self.x + (self.width - textWidth) // 2

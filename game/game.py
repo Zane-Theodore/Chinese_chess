@@ -28,6 +28,12 @@ class Game:
     def isOver(self):
         return self.gameover
 
+    def surrender(self):
+        """
+        Surrender this game
+        """
+        self.gameover = True
+
     def resetGame(self):
         """
         Reset the game
