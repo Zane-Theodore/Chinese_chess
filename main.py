@@ -1,9 +1,10 @@
 import pygame
 
-from game.config import Color, WIN_HEIGHT, WIN_WIDTH, background_image, overlay
+from game.config import WIN_HEIGHT, WIN_WIDTH, background_image, overlay, RED_SIDE, BLUE_SIDE
 from game.controlPanel import ControlPanel
 from game.game import Game
 from menu import main_menu
+from game.ai_player import AIPlayer
 
 
 # Increase sharpness
@@ -18,6 +19,7 @@ pygame.display.set_caption("Chinese Chess Game")  # win caption
 pygame.font.init()
 myfont = pygame.font.SysFont("Comic Sans MS", 15)
 
+
 def draw(game, controlPanel):
     """
     Drawing the game to window
@@ -28,6 +30,7 @@ def draw(game, controlPanel):
 
     controlPanel.draw(WIN)
     pygame.display.update()
+
 
 def main():
     """
@@ -58,8 +61,39 @@ def main():
 
                         controlPanel.checkForClick(pos)
         elif choice == "player_vs_ai":
-            print("feather is creating . . .")
-            continue
+            ai = AIPlayer(depth=3)
+            player_side = RED_SIDE
+            ai_side = BLUE_SIDE
+
+            while run:
+                draw(game, controlPanel)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        print("Quit game")
+                        return
+
+                    pos = pygame.mouse.get_pos()
+
+                    # Player' turn
+                    if pygame.mouse.get_pressed()[0] and game.board.turn == player_side:
+                        if not game.isOver:
+                            game.checkForMove(pos)
+                        else:
+                            print("Game is over")
+
+                        controlPanel.checkForClick(pos)
+
+                # AI' turn
+                if game.board.turn == ai_side and not game.isOver:
+                    best_move = ai.findBestMove(game.board, ai_side)
+                    if best_move:
+                        piece, move = best_move
+                        game.board.movePiece(piece.getPosition(), move)
+
+                # Check game state
+                if game.isOver:
+                    print("Game is over")
+                    break
         elif choice == "quit":
             print("Quit game")
             pygame.quit()

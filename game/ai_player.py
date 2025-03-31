@@ -1,6 +1,6 @@
+import copy
 import numpy as np
 from .config import RED_SIDE, BLUE_SIDE
-
 
 class AIPlayer:
     def __init__(self, depth=3):
@@ -29,26 +29,20 @@ class AIPlayer:
             for piece in row:
                 if piece is not None:
                     value = piece_values.get(piece.NAME, 0)
-                    # Thêm trọng số dựa trên vị trí
-                    row_modifier = 1 if piece.side == RED_SIDE else -1
-                    position_value = row_modifier * piece.position[0] * 0.1
                     if piece.side == side:
-                        score += value + position_value
+                        score += value
                     else:
-                        score -= value + position_value
+                        score -= value
         return score
 
     def minimax(self, board, depth, maximizingPlayer, alpha, beta, side):
         """
         Minimax algorithm with Alpha-Beta Pruning.
         """
-        if depth == 0 or board.getLord(RED_SIDE).mated or board.getLord(BLUE_SIDE).mated:
+        if depth == 0 or board.getLord(1).mated or board.getLord(0).mated:
             return self.evaluateBoard(board, side), None
 
         valid_moves = self.getAllValidMoves(board, side if maximizingPlayer else self.getOpponent(side))
-
-        # Sắp xếp nước đi để ưu tiên các nước ăn quân
-        valid_moves = self.sortMoves(valid_moves, board)
 
         best_move = None
         if maximizingPlayer:
@@ -56,14 +50,10 @@ class AIPlayer:
             for piece, moves in valid_moves.items():
                 for move in moves:
                     # Simulate move
-                    captured_piece = board.getPiece(move)
-                    self.simulateMove(board, piece, move)
+                    board_copy = copy.deepcopy(board)
+                    board_copy.movePiece(piece.getPosition(), move)
 
-                    eval = self.minimax(board, depth - 1, False, alpha, beta, side)[0]
-
-                    # Undo move
-                    self.undoMove(board, piece, move, captured_piece)
-
+                    eval = self.minimax(board_copy, depth - 1, False, alpha, beta, side)[0]
                     if eval > max_eval:
                         max_eval = eval
                         best_move = (piece, move)
@@ -77,14 +67,10 @@ class AIPlayer:
             for piece, moves in valid_moves.items():
                 for move in moves:
                     # Simulate move
-                    captured_piece = board.getPiece(move)
-                    self.simulateMove(board, piece, move)
+                    board_copy = copy.deepcopy(board)
+                    board_copy.movePiece(piece.getPosition(), move)
 
-                    eval = self.minimax(board, depth - 1, True, alpha, beta, side)[0]
-
-                    # Undo move
-                    self.undoMove(board, piece, move, captured_piece)
-
+                    eval = self.minimax(board_copy, depth - 1, True, alpha, beta, side)[0]
                     if eval < min_eval:
                         min_eval = eval
                         best_move = (piece, move)
@@ -107,44 +93,11 @@ class AIPlayer:
                     valid_moves[piece] = moves
         return valid_moves
 
-    def sortMoves(self, valid_moves, board):
-        """
-        Sort moves to prioritize capturing pieces.
-        """
-        sorted_moves = {}
-        for piece, moves in valid_moves.items():
-            # Sort moves by the value of the captured piece (if any)
-            sorted_moves[piece] = sorted(
-                moves,
-                key=lambda move: (
-                    board.getPiece(move).NAME if board.getPiece(move) else "",
-                    board.getPiece(move).side if board.getPiece(move) else "",
-                ),
-                reverse=True,
-            )
-        return sorted_moves
-
-    def simulateMove(self, board, piece, move):
-        """
-        Simulate a move on the board.
-        """
-        captured_piece = board.getPiece(move)
-        board.movePiece(piece.getPosition(), move)
-        return captured_piece
-
-    def undoMove(self, board, piece, move, captured_piece):
-        """
-        Undo a simulated move on the board.
-        """
-        board.movePiece(move, piece.getPosition())
-        if captured_piece:
-            board.placePiece(captured_piece, move)
-
     def getOpponent(self, side):
         """
         Get the opponent's side.
         """
-        return RED_SIDE if side == BLUE_SIDE else BLUE_SIDE
+        return 1 if side == 0 else 0
 
     def findBestMove(self, board, side):
         """

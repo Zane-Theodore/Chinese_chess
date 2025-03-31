@@ -102,19 +102,8 @@ class BoardGame:
         """
         Draw the chessboard and its components
         """
-        riverCoordinate = ()
 
-        # Vẽ viền đen ngoài cùng
-        pygame.draw.rect(
-            win,
-            (0, 0, 0),  # Màu đen
-            pygame.Rect(
-                self.x - self.border - 5,  # Tăng kích thước viền ra ngoài
-                self.y - self.border - 5,
-                self.width + (self.border + 5) * 2,
-                self.height + (self.border + 5) * 2,
-            ),
-        )
+        riverCoordinate = ()
 
         # Draw the background covering the entire area including the border
         pygame.draw.rect(
@@ -207,6 +196,8 @@ class BoardGame:
         for position in self.movables:
             coor = self.getCoordinateFromPosition(position)
             pygame.draw.circle(win, Color.GREEN, coor, 7)
+
+
 
 
     def calculatePostion(self):
