@@ -104,7 +104,7 @@ class ControlPanel:
             win.blit(text, (textX, textY))
 
         if self.game.isOver:
-            winnerTeam = "Blue" if self.game.turn == RED_SIDE else "Red"
+            winnerTeam = "Black" if self.game.turn == RED_SIDE else "Red"
             text = Font.NORMAL_FONT.render(f"{winnerTeam} won", True, Color.GREEN)
             textWidth, textHeight = text.get_size()
 

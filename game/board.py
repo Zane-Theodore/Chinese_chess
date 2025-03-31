@@ -100,12 +100,42 @@ class BoardGame:
 
     def drawGrid(self, win):
         """
-        Draw the chess board
+        Draw the chessboard and its components
         """
-
         riverCoordinate = ()
 
-        # Draw all the lines
+        # Vẽ viền đen ngoài cùng
+        pygame.draw.rect(
+            win,
+            (0, 0, 0),  # Màu đen
+            pygame.Rect(
+                self.x - self.border - 5,  # Tăng kích thước viền ra ngoài
+                self.y - self.border - 5,
+                self.width + (self.border + 5) * 2,
+                self.height + (self.border + 5) * 2,
+            ),
+        )
+
+        # Draw the background covering the entire area including the border
+        pygame.draw.rect(
+            win,
+            (252, 182, 40),  # Same color as the river and border
+            pygame.Rect(
+                self.x - self.border,
+                self.y - self.border,
+                self.width + self.border * 2,
+                self.height + self.border * 2,
+            ),
+        )
+
+        # Draw the chessboard background
+        pygame.draw.rect(
+            win,
+            (255, 203, 97),  # Yellowish color for the board
+            pygame.Rect(self.x, self.y, self.width, self.height),
+        )
+
+        # Draw all the grid lines
         for row in range(self.rows + 1):
             pygame.draw.line(
                 win,
@@ -152,29 +182,32 @@ class BoardGame:
         # Draw the river
         pygame.draw.rect(
             win,
-            Color.BLACK,
+            (252, 182, 40),  # Same color as the border
             pygame.Rect(*riverCoordinate, self.width - 2, self.gap - 2),
         )
 
-        # Draw the border
+        # Draw the border with the same color as the river
         self.rectangle = pygame.draw.rect(
             win,
-            Color.WHITE,
+            (252, 182, 40),  # Same color as the river
             (
                 self.x - self.border,
                 self.y - self.border,
                 self.width + self.border * 2,
                 self.height + self.border * 2,
             ),
-            2,
+            10,
         )
 
+        # Draw all the active pieces on the board
         for piece in self.activePices:
             piece.draw(win)
 
+        # Highlight all movable positions
         for position in self.movables:
             coor = self.getCoordinateFromPosition(position)
             pygame.draw.circle(win, Color.GREEN, coor, 7)
+
 
     def calculatePostion(self):
         """

@@ -15,7 +15,13 @@ WIN_HEIGHT = 900
 
 # Red side, blue side indicator
 RED_SIDE = RED_TURN = 1
-BLUE_SIDE = BLUE_TURN = 0   
+BLUE_SIDE = BLUE_TURN = 0
+
+background_image = pygame.image.load("images/background/background.jpg")
+background_image = pygame.transform.scale(background_image, (WIN_WIDTH, WIN_HEIGHT))
+overlay = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
+overlay.fill((255, 255, 255))
+overlay.set_alpha(75)
 
 
 class Color:
@@ -29,12 +35,14 @@ class Color:
     ORANGE = (255, 165, 0)
     GREY = (128, 128, 128)
     TURQUOISE = (64, 224, 208)
+    DARK_YELLOW = (252, 182, 40)
 
 class Font:
     SCORE_TEXT_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "CursedTimerUlil-Aznm.ttf"), 30)
     SCORE_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "CursedTimerUlil-Aznm.ttf"), 30)
     SCORE_FONT.set_bold(True)
     NORMAL_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Poppins-Bold.ttf"), 30)
+    TITLE_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Allison-Regular.ttf"), 120)
     WRITING_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Allison-Regular.ttf"), 30)
 
 

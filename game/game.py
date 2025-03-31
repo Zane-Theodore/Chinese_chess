@@ -38,6 +38,10 @@ class Game:
         """
         Undo the last move
         """
+        if self.gameover:
+            print("Game is over")
+            return
+
         if len(self.history) > 1:  # Kiểm tra nếu có trạng thái để hoàn tác
             self.history.pop()  # Xóa trạng thái cuối cùng
             self.board = deepcopy(self.history[-1])  # Khôi phục trạng thái trước đó
