@@ -42,7 +42,7 @@ class Font:
     SCORE_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "CursedTimerUlil-Aznm.ttf"), 30)
     SCORE_FONT.set_bold(True)
     NORMAL_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Poppins-Bold.ttf"), 30)
-    TITLE_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Allison-Regular.ttf"), 120)
+    TITLE_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Allison-Regular.ttf"), 180)
     WRITING_FONT = pygame.font.Font(os.path.join(parent_dir, "fonts", "Allison-Regular.ttf"), 30)
 
 

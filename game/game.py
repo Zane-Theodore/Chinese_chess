@@ -32,6 +32,7 @@ class Game:
         """
         Reset the game
         """
+        print("reseted")
         self._init()
 
     def undo(self):
