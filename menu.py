@@ -6,7 +6,6 @@ def main_menu():
     Display main menu
     """
 
-    # Cập nhật tọa độ y để nút trên cùng nằm ở nửa chiều cao cửa sổ
     with_player_rect = pygame.Rect(WIN_WIDTH // 2 - 150, WIN_HEIGHT // 2, 300, 50) 
     with_ai_rect = pygame.Rect(WIN_WIDTH // 2 - 150, WIN_HEIGHT // 2 + 100, 300, 50) 
     quit_rect = pygame.Rect(WIN_WIDTH // 2 - 150, WIN_HEIGHT // 2 + 200, 300, 50)

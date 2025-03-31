@@ -44,6 +44,7 @@ def main():
         run = True
 
         if choice == "player_vs_player":
+            print("Star PvP")
             while run:
                 draw(game, controlPanel)
                 # Loop through all events in 1 frames
@@ -58,9 +59,9 @@ def main():
                             game.checkForMove(pos)
                         else:
                             print("Game is over")
-
                         controlPanel.checkForClick(pos)
         elif choice == "player_vs_ai":
+            print("Star PvE")
             ai = AIPlayer(depth=3)
             player_side = RED_SIDE
             ai_side = BLUE_SIDE
@@ -74,7 +75,7 @@ def main():
 
                     pos = pygame.mouse.get_pos()
 
-                    # Player' turn
+                    # Player's turn
                     if pygame.mouse.get_pressed()[0] and game.board.turn == player_side:
                         if not game.isOver:
                             game.checkForMove(pos)
@@ -83,7 +84,7 @@ def main():
 
                         controlPanel.checkForClick(pos)
 
-                # AI' turn
+                # AI's turn
                 if game.board.turn == ai_side and not game.isOver:
                     best_move = ai.findBestMove(game.board, ai_side)
                     if best_move:

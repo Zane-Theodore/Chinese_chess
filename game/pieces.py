@@ -150,23 +150,58 @@ class ChessPiece:
         self.checkForAttackAbility()
 
     def getSide(self):
+        """
+        get side of piece
+        """
         return self.side
 
     def isEnemy(self, other):
+        """
+        determine if another piece is an enemy
+        """
         return True if other.getSide() != self.getSide() else False
 
     def __str__(self):
+        """
+        Returns a human-readable description of the piece.
+
+        Example:
+        - If `NAME = "Chariot"` and `position = (2, 3)`,
+        print(piece) -> "A Chariot at (2, 3)"
+        """
         return f"A {self.NAME} at {self.position}"
 
     def __repr__(self):
+        """
+        Returns a string representation for debugging.
+
+        Example:
+        - If `NAME = "Horse"` and `side = "Red"`,
+        repr(piece) -> "Object Horse-Red"
+        """
         return f"Object {self.NAME}-{self.side}"
 
     def __eq__(self, other):
+        """
+        Checks if two pieces are equal.
+
+        - Returns False if `other` is not a ChessPiece.
+        - Pieces are equal if they share the same `centrePoint`.
+
+        Example:
+        - If `piece1.centrePoint == piece2.centrePoint`, they are equal.
+        """
         if not isinstance(other, ChessPiece):
             return False
         return self.centrePoint == other.centrePoint
 
     def __hash__(self):
+        """
+        Returns a hash value based on `centrePoint`.
+
+        - Allows pieces to be used in sets and dictionaries.
+        - Ensures unique identification based on position.
+        """
         return hash(self.centrePoint)
 
 

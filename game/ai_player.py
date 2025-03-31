@@ -3,7 +3,7 @@ import numpy as np
 from .config import RED_SIDE, BLUE_SIDE
 
 class AIPlayer:
-    def __init__(self, depth=3):
+    def __init__(self, depth=2):
         """
         Initialize the AI Player with a search depth.
         """

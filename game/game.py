@@ -49,13 +49,13 @@ class Game:
             print("Game is over")
             return
 
-        if len(self.history) > 1:  # Kiểm tra nếu có trạng thái để hoàn tác
-            self.history.pop()  # Xóa trạng thái cuối cùng
-            self.board = deepcopy(self.history[-1])  # Khôi phục trạng thái trước đó
+        if len(self.history) > 1:  # Check if there is a status to undo
+            self.history.pop() 
+            self.board = deepcopy(self.history[-1])  # Restore previous state
             self.turn = self.board.turn
-            self.selectedPiece = None  # Hủy chọn quân cờ
+            self.selectedPiece = None
         else:
-            print("No moves to undo!")  # Debug: Không có nước đi để hoàn tác
+            print("No moves to undo!")
 
 
     def switchTurn(self):
