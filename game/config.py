@@ -2,18 +2,13 @@ import pygame
 import os
 
 pygame.font.init()
-
-# Lấy thư mục chứa file py hiện tại
 current_dir = os.path.dirname(__file__)
 
-# Lấy thư mục cha chứa thư mục `fonts` và `images`
 parent_dir = os.path.dirname(current_dir)
 
-# Width and height of the application
 WIN_WIDTH = 1200
 WIN_HEIGHT = 900
 
-# Red side, blue side indicator
 RED_SIDE = RED_TURN = 1
 BLUE_SIDE = BLUE_TURN = 0
 

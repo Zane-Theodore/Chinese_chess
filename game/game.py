@@ -2,8 +2,8 @@ from copy import deepcopy
 from pprint import pprint
 
 from .config import RED_TURN, BLUE_TURN
-from .board import BoardGame
-
+from .board import Board
+from gui.board_renderer import BoardRenderer  # Import BoardRenderer
 
 class Game:
     def __init__(self, win):
@@ -11,13 +11,14 @@ class Game:
         self._init()
 
     def updateGame(self):
-        self.board.drawGrid(self.win)
+        self.board_renderer.draw(self.win)  # Dùng BoardRenderer để vẽ bàn cờ
 
     def _init(self):
         """
-        Initilize new board
+        Initialize new board
         """
-        self.board = BoardGame()
+        self.board = Board()  # Board chỉ chứa logic của trò chơi
+        self.board_renderer = BoardRenderer(self.board)  # BoardRenderer vẽ bàn cờ
         self.history = [deepcopy(self.board)]
         self.gameover = False
         self.turn = RED_TURN
@@ -33,6 +34,12 @@ class Game:
         Reset the game
         """
         self._init()
+
+    def surrender(self):
+        """
+        Surrender this game
+        """
+        self.gameover = True
 
     def undo(self):
         """
@@ -50,14 +57,13 @@ class Game:
         else:
             print("No moves to undo!")  # Debug: Không có nước đi để hoàn tác
 
-
     def switchTurn(self):
         """
         Switching side
         """
         self.turn = RED_TURN if self.turn == BLUE_TURN else BLUE_TURN
         self.enemyPieces = [
-            piece for piece in self.board.activePices if piece.side != self.turn
+            piece for piece in self.board.activePieces if piece.side != self.turn
         ]
 
     def checkForMove(self, clickedPos):
@@ -130,7 +136,7 @@ class Game:
         Calcalate the next moves for every piece
         """
         piecesInTurn = [
-            piece for piece in self.board.activePices if piece.side == self.turn
+            piece for piece in self.board.activePieces if piece.side == self.turn
         ]  # get all pieces that in the turn to move
 
         nextMoves = 0
@@ -149,7 +155,7 @@ class Game:
                 lordPiece = tempBoard.getLord(self.turn)
 
                 enemyMoves = []
-                for p in tempBoard.activePices:
+                for p in tempBoard.activePieces:
                     if p.getSide() != self.turn and p.attackingPiece:
                         enemyMoves += p.checkPossibleMove(tempBoard.grid)
                         totalPiecesCheck += 1
