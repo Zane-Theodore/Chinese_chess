@@ -86,7 +86,7 @@ class AIPlayer:
         Returns a dictionary with pieces as keys and their possible moves as values.
         """
         valid_moves = {}
-        for piece in board.activePices:
+        for piece in board.activePieces:
             if piece.side == side:
                 moves = piece.checkPossibleMove(board.grid, update=False)
                 if moves:
