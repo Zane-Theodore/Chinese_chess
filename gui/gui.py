@@ -4,6 +4,7 @@ import ctypes
 from utils.config import HEIGHT, WIDTH, GAP, Color, river_words
 from game.board import Board
 from game.menu import Menu
+from .game_window import create_windown
 from .menu_renderer import MenuRenderer
 
 ctypes.windll.user32.SetProcessDPIAware()
@@ -11,8 +12,7 @@ ctypes.windll.user32.SetProcessDPIAware()
 class GameUI:
     def __init__(self):
         pygame.init()
-        WIN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
-        pygame.display.set_caption("Chinese Chess")
+        WIN = create_windown()
         self.win = WIN
         self.width = WIDTH
         self.height = HEIGHT
