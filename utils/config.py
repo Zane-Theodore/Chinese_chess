@@ -20,6 +20,7 @@ class Color:
     GRAY = (50, 50, 50)
     LiGHT_GRAY = (200, 200, 200)
     WHITE = (255, 255, 255)
+    WHITE_WITH_ALPHA = (255, 255, 255, 10)
     ORANGE = (210, 100, 40)
     PURPLE = (35, 5, 170)
     SHADOW = (53, 75, 94)
