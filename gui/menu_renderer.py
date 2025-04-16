@@ -7,6 +7,7 @@ class MenuRenderer:
         self.menu = menu
         self.main_option_rects = []
         self.ai_option_rects = []
+        self.overlay = None
 
     def draw_main_menu(self):
         self.screen.fill(Color.GRAY)
@@ -31,9 +32,11 @@ class MenuRenderer:
     def draw_submenu(self):
         self.ai_option_rects = []
 
-        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-        overlay.fill((255, 255, 255, 30)) 
-        self.screen.blit(overlay, (0, 0))
+        # Draw overlay only once
+        if self.overlay is None:
+            self.overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+            self.overlay.fill(Color.WHITE_WITH_ALPHA) 
+            self.screen.blit(self.overlay, (0, 0))
 
         # Create the frame
         box_width = WIDTH // 2
@@ -49,7 +52,7 @@ class MenuRenderer:
         x_button_size = 40
         x_button_rect = pygame.Rect(box_x + box_width - x_button_size - 10, box_y + 10, x_button_size, x_button_size)
         pygame.draw.rect(self.screen, Color.RED, x_button_rect)
-        x_text =Font.NORMAL_FONT.render("X", True, Color.WHITE)
+        x_text = Font.NORMAL_FONT.render("X", True, Color.WHITE)
         x_text_rect = x_text.get_rect(center=x_button_rect.center)
         self.screen.blit(x_text, x_text_rect)
 
